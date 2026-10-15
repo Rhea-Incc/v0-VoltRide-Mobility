@@ -1,0 +1,233 @@
+VoltRide Mobility — Phase 1A
+Brand foundation, art direction and website-wide design system
+Master website specification · Design phase 1 of 3 · Sub-phase 1A
+Phase 1A establishes the visual and experiential foundation for the entire VoltRide Mobility website. Before designing individual pages, we define how the brand looks, feels, communicates, presents its coaches and expresses the relationship between the commercial entities.
+The goal is a website that feels like an established electric mobility and transport infrastructure business—not a generic EV startup, a bus dealership template or a futuristic technology demo.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9
+
+
+
+
+
+
+
+
+1. Design objective
+VoltRide Mobility must communicate three things immediately:
+1. The asset: electric intercity coaches that transport operators can explore leasing or purchasing.
+2. The system: a connected ecosystem of coach supply, battery solutions, charging infrastructure and operational coordination.
+3. The commercial pathway: a clear process for evaluating the right arrangement for each fleet.
+The website should be visually confident and technically credible, with the coach itself as the primary visual subject. Infrastructure, people, data and technology should support that story rather than compete with it.
+2. Brand positioning and hierarchy
+PRIMARY BRAND
+VOLTRIDE MOBILITY
+Electric mobility. Connected by design.
+
+Coach ownership and leasing
+VoltRide owns the coaches and enters into coach-leasing contracts. It also presents outright-purchase options where available, with the legal ownership transfer specified in each sale contract.
+
+
+Integrated mobility services
+Customers can explore battery leasing, charging infrastructure and fleet operations through the wider ecosystem.
+
+
+Coordinated delivery
+Autovance coordinates operations and the customer journey, while each specialist business remains responsible for its contracted services.
+
+
+
+Brand architecture
+Entity	Website presentation
+VoltRide Mobility	The primary customer-facing brand and commercial relationship owner for coaches
+Autovance	Platform management, operator coordination and operational services
+Voltrium	Charging infrastructure and charging assessments
+VoltCycle	Battery leasing and lifecycle services
+FleetSure Partners	Insurance coordination, subject to verified authorisations and arrangements
+TerraNova Infrastructure Group	Portfolio-level ownership and investment oversight
+Terra Belle Foundation	Separate public-benefit organisation, presented only where relevant
+The website must not make every entity appear to be a separate, competing customer brand. VoltRide leads the experience; the other entities appear as clearly defined specialist partners within the wider system.
+3. Visual identity system
+The supplied VoltRide logo is the source of truth. Its aerodynamic horizontal symbol, graphite lettering and steel-blue secondary lettering should inform the visual language of the website.
+Core palette
+
+Graphite
+#17242B
+
+
+
+
+Steel blue
+#536D7C
+
+
+
+
+Technical white
+#F4F6F7
+
+
+
+
+Silver grey
+#D8E0E4
+
+
+
+
+Pure white
+#FFFFFF
+
+
+
+
+Deep slate
+#263943
+
+
+
+
+
+Colour application
+- Graphite: navigation, headlines, footer, key buttons and major brand statements.
+- Steel blue: secondary actions, technical diagrams, section labels and supporting emphasis.
+- Technical white: the principal canvas for content, specifications and product presentation.
+- Silver grey: dividers, cards, tables, borders and subtle interface backgrounds.
+- Deep slate: occasional dark panels for fleet technology, charging and operational storytelling.
+Avoid using green as the dominant colour simply because the product is electric. VoltRide should own its distinctive graphite-and-steel visual territory.
+Typography
+Use a contemporary geometric sans-serif with strong legibility and controlled spacing.
+DISPLAY / HERO
+A better way to move between cities.
+Large, confident headlines with compact line lengths and generous white space.
+
+
+SECTION HEADING
+Electric coaches. Connected operations.
+Clear hierarchy and short descriptive subheadings.
+
+
+BODY COPY
+Explore coach acquisition, battery arrangements and charging requirements through a coordinated fleet assessment.
+Comfortable reading size, accessible contrast and straightforward commercial language.
+
+
+The design system should define heading scales, body sizes, line heights, letter spacing, maximum text widths and responsive adjustments. Avoid overly extended letter spacing in body copy or excessive uppercase text.
+4. Photography and image art direction
+Photography will be one of the strongest determinants of perceived quality.
+
+
+
+
+
+
+
+
+
+A. The coach
+Use full-size, realistic electric intercity coaches with convincing proportions, glazing, wheels and bodywork. Hero images should show the vehicle clearly, preferably in three-quarter view, with room for text placement.
+
+
+
+
+
+
+
+
+
+
+
+
+B. The operating environment
+Show real-world intercity travel, terminals, highways and passenger transport settings. For a Kenyan launch, regional context should feel authentic rather than relying exclusively on European landscapes.
+
+
+
+
+
+
+
+
+
+
+
+
+C. The infrastructure
+Photograph charging equipment, depot layouts, power systems and service environments as tangible engineering assets—not abstract neon circuitry.
+
+
+
+
+
+
+
+
+
+
+
+
+D. The passenger experience
+Show spacious interiors, seating, luggage provision and passenger comfort where actual vehicle specifications support those representations.
+
+
+
+OEM imagery rules: King Long, Yutong and Zhongtong vehicles must be shown with their correct manufacturer identities and verified model details. Do not use a generic generated electric coach as though it were a specific OEM model. Label conceptual illustrations where necessary, and use authorised OEM photography or verified assets for actual product listings.
+5. Layout and component system
+The site should use a consistent twelve-column desktop grid, a fluid tablet layout and a simplified mobile composition.
+Core layout principles
+Editorial composition
+Wide photographic hero sections, strong alignment and short text blocks. Avoid filling every available space with cards.
+
+
+Reusable components
+Buttons, product cards, specification tables, OEM cards, service panels, form controls, navigation and footers must share consistent spacing and behaviour.
+
+
+Mobile-first conversion
+The fleet assessment call to action must remain easy to locate. Forms should use stacked fields, concise labels and touch-friendly controls.
+
+
+Accessibility
+Use semantic headings, visible keyboard focus, readable contrast, descriptive image alternatives and reduced-motion support.
+
+
+
+Buttons
+- Primary: graphite background, white text, restrained radius.
+- Secondary: white or transparent background, graphite border and text.
+- Text links: understated, with a clear hover and focus state.
+- Avoid pill-shaped buttons everywhere, oversized gradients or multiple competing primary actions.
+Suggested action hierarchy:
+1. Request a fleet assessment
+2. Explore coach options
+3. Compare commercial models
+4. Explore charging solutions
+6. Motion and interaction principles
+Motion should communicate precision, not spectacle.
+- Use subtle transitions for navigation, buttons and expandable information.
+- Allow the three-line aerodynamic motif to inspire occasional directional movement.
+- Keep hero text readable and stable; avoid aggressive typewriter effects or moving text that harms accessibility.
+- Use gentle image transitions and restrained scroll reveals.
+- Keep technical diagrams static or minimally animated by default.
+- Respect reduced-motion preferences and ensure the site remains fully usable without animation.
+7. Phase 1A master JSON design prompt
+The following is the implementation-facing brief to carry into the website design process.

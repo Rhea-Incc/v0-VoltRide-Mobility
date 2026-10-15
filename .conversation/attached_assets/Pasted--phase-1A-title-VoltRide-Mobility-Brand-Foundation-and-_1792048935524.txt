@@ -1,0 +1,172 @@
+
+{
+  "phase": "1A",
+  "title": "VoltRide Mobility Brand Foundation and Website-Wide Design System",
+  "objective": "Establish a premium, technically credible and commercially clear design system for the VoltRide Mobility public website.",
+  "reference_assets": {
+    "primary_logo": "User-supplied VoltRide Mobility logo",
+    "logo_authority": "Absolute source of truth",
+    "preserve": [
+      "Original logo proportions",
+      "Aerodynamic three-line symbol",
+      "Graphite wordmark",
+      "Steel-blue secondary wordmark",
+      "Original letterform geometry"
+    ],
+    "vehicle_imagery": "Use verified OEM assets for real model representations.",
+    "unverified_assets": "Label conceptual imagery and avoid presenting it as confirmed inventory."
+  },
+  "brand": {
+    "positioning": "Integrated electric intercity coach and mobility platform",
+    "tagline": "Electric mobility. Connected by design.",
+    "primary_business": "VoltRide Mobility",
+    "core_responsibilities": [
+      "Coach ownership",
+      "Coach leasing contracts",
+      "Outright-purchase options where available",
+      "Customer-facing fleet assessment",
+      "Coordination of connected mobility services"
+    ]
+  },
+  "design_tokens": {
+    "colours": {
+      "graphite": "#17242B",
+      "steel_blue": "#536D7C",
+      "technical_white": "#F4F6F7",
+      "silver_grey": "#D8E0E4",
+      "white": "#FFFFFF",
+      "deep_slate": "#263943"
+    },
+    "typography": {
+      "style": "Contemporary geometric sans-serif",
+      "hierarchy": [
+        "Display",
+        "Page title",
+        "Section heading",
+        "Subheading",
+        "Body",
+        "Caption",
+        "Technical label"
+      ]
+    },
+    "layout": {
+      "desktop": "Twelve-column responsive grid",
+      "tablet": "Fluid multi-column layout",
+      "mobile": "Single-column priority-based layout",
+      "principles": [
+        "Generous white space",
+        "Consistent alignment",
+        "Clear content hierarchy",
+        "Responsive image crops",
+        "Readable text widths"
+      ]
+    },
+    "components": [
+      "Header and navigation",
+      "Primary and secondary buttons",
+      "Hero sections",
+      "Image and text layouts",
+      "Service cards",
+      "OEM partner cards",
+      "Technical specification tables",
+      "Commercial model comparisons",
+      "Lead-generation panels",
+      "Form controls",
+      "Footer",
+      "Consent notices"
+    ]
+  },
+  "photography": {
+    "priority_subjects": [
+      "Electric intercity coaches",
+      "Authentic regional highways and terminals",
+      "Charging depots and power equipment",
+      "Coach interiors",
+      "Fleet operations",
+      "Engineering and maintenance"
+    ],
+    "style": [
+      "Professional transport photography",
+      "Natural and believable lighting",
+      "Realistic vehicle proportions",
+      "Clean composition",
+      "Accurate product details"
+    ],
+    "restrictions": [
+      "No fabricated OEM specifications",
+      "No invented stock or delivery claims",
+      "No misleading charging-site imagery",
+      "No fake customer endorsements",
+      "No unverified partnership claims"
+    ]
+  },
+  "brand_architecture": {
+    "VoltRide_Mobility": "Client-facing coach owner and lessor",
+    "Autovance": "Platform management and operations coordination",
+    "Voltrium": "Charging infrastructure",
+    "VoltCycle": "Battery leasing and lifecycle management",
+    "FleetSure_Partners": "Insurance coordination subject to verification",
+    "TerraNova_Infrastructure_Group": "Portfolio investment oversight",
+    "Terra_Belle_Foundation": "Separate public-benefit organisation"
+  },
+  "oem_presentation": {
+    "manufacturers": [
+      "King Long",
+      "Yutong",
+      "Zhongtong"
+    ],
+    "presentation": "Dedicated OEM profiles and verified coach information",
+    "verification_requirements": [
+      "Partnership status",
+      "Distribution rights",
+      "Model specifications",
+      "Image usage rights",
+      "Availability",
+      "Warranty and service arrangements"
+    ]
+  },
+  "experience_requirements": {
+    "primary_conversion": "Request a fleet assessment",
+    "secondary_conversions": [
+      "Explore coach options",
+      "Compare commercial models",
+      "Explore charging solutions",
+      "Discuss a strategic partnership"
+    ],
+    "motion": "Restrained and purposeful",
+    "accessibility": "Keyboard accessible, responsive and readable",
+    "performance": "Optimised images, fonts and page loading"
+  },
+  "prohibited_design_patterns": [
+    "Generic EV startup templates",
+    "Excessive green sustainability imagery",
+    "Neon futuristic interfaces",
+    "Overloaded dashboards on public pages",
+    "Unverified financial or environmental claims",
+    "Fabricated OEM endorsements",
+    "Inconsistent partner branding",
+    "Unnecessary animation"
+  ],
+  "deliverables": [
+    "Approved visual direction",
+    "Colour and typography tokens",
+    "Spacing and layout rules",
+    "Component specifications",
+    "Photography and image usage guide",
+    "Logo usage guide",
+    "Responsive behaviour rules",
+    "Accessibility requirements",
+    "OEM presentation standards",
+    "Brand architecture and content hierarchy"
+  ],
+  "acceptance_criteria": [
+    "The original logo remains unchanged.",
+    "The design is recognisably VoltRide Mobility.",
+    "Coach ownership and leasing responsibilities are clear.",
+    "The wider ecosystem is understandable without overwhelming the primary brand.",
+    "OEM relationships are represented accurately.",
+    "Components work across mobile, tablet and desktop.",
+    "The visual system supports all subsequent website phases."
+  ],
+  "next_phase": "1B — Sitemap, navigation, homepage architecture and page-by-page content specification"
+}

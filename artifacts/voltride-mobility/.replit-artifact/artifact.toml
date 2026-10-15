@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "VoltRide Mobility"
+description = "A public website for an integrated electric intercity coach and mobility platform, helping transport operators explore coach leasing and purchase options, fleet assessment, charging infrastructure, battery services, and operations coordination."
+version = "1.0.0"
+id = "artifacts/voltride-mobility"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25888
+
+[services.development]
+run = "pnpm --filter @workspace/voltride-mobility run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/voltride-mobility", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/voltride-mobility/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25888"
+BASE_PATH = "/"

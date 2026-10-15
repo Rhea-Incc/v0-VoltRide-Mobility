@@ -1,10 +1,10 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import { ArrowDown, ArrowRight, BatteryCharging, Menu, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, BatteryCharging, Menu, X, Zap, Activity, ShieldCheck, Route as RouteIcon } from 'lucide-react';
 import {
   Route,
   Switch,
@@ -14,9 +14,64 @@ import {
 
 const queryClient = new QueryClient();
 
+const capabilityDetails = {
+  volt: {
+    title: 'Voltrium / Charging infrastructure',
+    description: 'A distinct charging capability. Site scope, delivery arrangements and feasibility require assessment and confirmation.',
+    image: '/brand-assets/charger-closeup.jpg',
+    imageAlt: 'Illustrative high-power charging equipment',
+    artLabel: 'SITE + CHARGER',
+  },
+  cycle: {
+    title: 'VoltCycle / Battery lifecycle',
+    description: 'Battery leasing and lifecycle-management capability. Specific offers, ownership and end-of-life pathways require verification.',
+    image: '/brand-assets/battery-pack.jpg',
+    imageAlt: 'Illustrative electric coach battery pack',
+    artLabel: 'BATTERY LIFECYCLE',
+  },
+  auto: {
+    title: 'Autovance / Coordinated operations',
+    description: 'Coordinates platform operations and the customer journey across the mobility platform.',
+    image: '/brand-assets/fleet-operations_1792051092148.jpg',
+    imageAlt: 'Illustrative fleet operations team at work',
+    artLabel: 'ROUTE + OPERATIONS',
+  },
+  sure: {
+    title: 'FleetSure / Role to be verified',
+    description: 'Potential ecosystem role, service and coverage are subject to verification. No insurance coverage or service is implied.',
+    image: '',
+    imageAlt: '',
+    artLabel: 'SCOPE SUBJECT TO CONFIRMATION',
+  },
+} as const;
+
 function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('');
+  const [activeNode, setActiveNode] = useState<keyof typeof capabilityDetails>('volt');
+  const activeCapability = capabilityDetails[activeNode];
+
+  useEffect(() => {
+    if (
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      !('IntersectionObserver' in window)
+    ) return;
+
+    const revealTargets = document.querySelectorAll<HTMLElement>('.site [data-reveal]');
+    if (!revealTargets.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -36px 0px' });
+
+    revealTargets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
 
   function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -31,7 +86,7 @@ function Home() {
     <div className="site">
       <header className="wrap topbar">
         <a className="brand" href="#top" aria-label="VoltRide Mobility home" onClick={closeMenu}>
-          <img src="/brand-assets/voltride-02.0_1792051092150.png" alt="VoltRide Mobility" />
+          <img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" />
         </a>
         <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} data-testid="button-menu-toggle">
           {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -47,7 +102,7 @@ function Home() {
 
       <main id="top">
         <section className="wrap hero" aria-labelledby="hero-title">
-          <div className="hero-copy reveal">
+          <div className="hero-copy" data-reveal>
             <div className="eyebrow">Intercity mobility, considered end to end</div>
             <h1 className="display" id="hero-title">Electric mobility.<br /><span>Connected</span><br />by design.</h1>
             <p>VoltRide is building an integrated electric coach and mobility platform for East African operators — connecting vehicles, energy and the realities of running a route.</p>
@@ -57,11 +112,12 @@ function Home() {
             </div>
             <div className="hero-meta">Built around the operator’s route</div>
           </div>
-          <div className="hero-visual">
+            <div className="hero-visual">
             <div className="hero-image">
-              <img src="/brand-assets/yutong-02_1792051092144.jpg" alt="Illustrative electric coach shown on a road" />
+                <img src="/brand-assets/e-coach-hero.jpg" alt="Illustrative electric coach in a dramatic studio setting" />
             </div>
-            <div className="hero-mark"><BatteryCharging aria-hidden="true" /><span>VEHICLE<br />+ ENERGY<br />+ OPERATIONS</span></div>
+              <div className="hero-mark"><BatteryCharging aria-hidden="true" /><span>VEHICLE<br />+ ENERGY<br />+ OPERATIONS</span></div>
+              <div className="hero-coordinate">01°17' S&nbsp; / &nbsp;36°49' E <i /></div>
             <div className="hero-ring" aria-hidden="true" />
             <div className="image-note">Illustrative coach imagery · model and rights subject to verification</div>
           </div>
@@ -79,10 +135,10 @@ function Home() {
               <div><div className="eyebrow">01 / The vehicle</div><h2 className="display">Start with the route.<br />Then shape the fleet.</h2></div>
               <p>Electric coach fit is not a brochure decision. It begins with duty cycles, passenger expectations, depot conditions and the operating model behind each route.</p>
             </div>
-            <div className="coach-layout">
+            <div className="coach-layout" data-reveal>
               <div className="coach-photo">
-                <img src="/brand-assets/ecoach-02_1792051092149.jpg" alt="Illustrative premium coach interior with passenger seating" loading="lazy" />
-                <div className="photo-index">01 — INTERIOR REFERENCE</div>
+                <img src="/brand-assets/electric-coach.jpg" alt="Illustrative electric coach at a depot" loading="lazy" />
+                <div className="photo-index">01 — ELECTRIC COACH REFERENCE</div>
               </div>
               <div className="coach-details">
                 <div className="eyebrow">Coach exploration</div>
@@ -107,13 +163,13 @@ function Home() {
               <p>Some operators want to own their assets. Others want to preserve capital or separate vehicle and battery exposure. We start with the operating requirement, not a pre-set answer.</p>
             </div>
             <div className="finance-grid">
-              <article className="finance-card">
+              <article className="finance-card" data-reveal>
                 <div className="count">PATH 01 / OUTRIGHT</div>
                 <h3>Purchase the coach</h3>
                 <p>For operators exploring direct ownership, the assessment can map vehicle requirements, charging implications and the service questions to resolve before a purchase decision.</p>
                 <div className="finance-tag">Asset ownership by operator</div>
               </article>
-              <article className="finance-card">
+              <article className="finance-card" data-reveal>
                 <div className="count">PATH 02 / LEASE</div>
                 <h3>Lease through VoltRide</h3>
                 <p>VoltRide is the coach owner / lessor. A lease structure may help align access to the vehicle with the operator’s planning horizon; commercial terms are discussed case by case.</p>
@@ -130,20 +186,37 @@ function Home() {
               <div><div className="eyebrow">03 / Coordinated by design</div><h2 className="display">The coach is visible.<br />The system makes it work.</h2></div>
               <p>Different capabilities have distinct roles. The platform is designed to coordinate a customer journey across assets, infrastructure and operating support.</p>
             </div>
-            <div className="system-canvas" aria-label="VoltRide mobility ecosystem and related service roles">
+            <div className="system-canvas" aria-label="VoltRide mobility ecosystem. Select a capability to explore its role.">
               <div className="system-bg" aria-hidden="true" /><div className="orbit" aria-hidden="true" />
-              <div className="system-center"><b>VOLTRIDE</b><span>COACH OWNER / LESSOR</span></div>
-              <div className="system-node node-volt"><b>VOLTRIUM</b><span>Charging infrastructure represented as a distinct capability; scope and delivery arrangements require confirmation.</span></div>
-              <div className="system-node node-cycle"><b>VOLTCYCLE</b><span>Battery leasing and lifecycle services represented as a separate capability; specific offers require confirmation.</span></div>
-              <div className="system-node node-auto"><b>AUTOVANCE</b><span>Coordinates platform operations and the customer journey across the mobility platform.</span></div>
-              <div className="system-node node-sure"><b>FLEETSURE</b><span>Potential ecosystem role is subject to verification. No service or coverage is implied.</span></div>
+              <div className="pulse pulse-one" aria-hidden="true" /><div className="pulse pulse-two" aria-hidden="true" />
+              <div className="system-center"><span className="center-pulse" /><b>VOLTRIDE</b><span>COACH OWNER / LESSOR</span></div>
+              <button type="button" data-testid="button-capability-voltrium" aria-pressed={activeNode === 'volt'} onClick={() => setActiveNode('volt')} className={`system-node node-volt ${activeNode === 'volt' ? 'selected' : ''}`}><span className="node-art art-charge"><Zap size={18} /></span><b>VOLTRIUM</b><span>Charging infrastructure represented as a distinct capability; scope and delivery arrangements require confirmation.</span></button>
+              <button type="button" data-testid="button-capability-voltcycle" aria-pressed={activeNode === 'cycle'} onClick={() => setActiveNode('cycle')} className={`system-node node-cycle ${activeNode === 'cycle' ? 'selected' : ''}`}><span className="node-art art-cycle"><Activity size={18} /></span><b>VOLTCYCLE</b><span>Battery leasing and lifecycle services represented as a separate capability; specific offers require confirmation.</span></button>
+              <button type="button" data-testid="button-capability-autovance" aria-pressed={activeNode === 'auto'} onClick={() => setActiveNode('auto')} className={`system-node node-auto ${activeNode === 'auto' ? 'selected' : ''}`}><span className="node-art art-auto"><RouteIcon size={18} /></span><b>AUTOVANCE</b><span>Coordinates platform operations and the customer journey across the mobility platform.</span></button>
+              <button type="button" data-testid="button-capability-fleetsure" aria-pressed={activeNode === 'sure'} onClick={() => setActiveNode('sure')} className={`system-node node-sure ${activeNode === 'sure' ? 'selected' : ''}`}><span className="node-art art-sure"><ShieldCheck size={18} /></span><b>FLEETSURE</b><span>Potential ecosystem role is subject to verification. No service or coverage is implied.</span></button>
             </div>
-            <p className="system-caption">TerraNova provides portfolio-level oversight. Terra Belle Foundation is a separate public-benefit organization and is not a VoltRide customer service. Entity roles and service scopes should be confirmed before contracting.</p>
+            <div className="capability-detail" aria-live="polite" data-testid="status-selected-capability" data-reveal>
+              <div className="capability-copy">
+                <div className="eyebrow">Selected capability</div>
+                <h3>{activeCapability.title}</h3>
+                <p>{activeCapability.description}</p>
+              </div>
+              <div className={`capability-artwork${activeCapability.image ? '' : ' no-photo'}`}>
+                {activeCapability.image ? (
+                  <img src={activeCapability.image} alt={activeCapability.imageAlt} loading="lazy" />
+                ) : (
+                  <ShieldCheck size={54} aria-hidden="true" />
+                )}
+                <span className="artwork-tag">{activeCapability.artLabel}</span>
+              </div>
+            </div>
+            <div className="partner-ribbon" data-reveal><span className="eyebrow">Portfolio oversight</span><img className="partner-art" src="/brand-assets/terranova-landscape.jpg" alt="" /><img src="/brand-assets/terranova-logo.png" alt="TerraNova Infrastructure Group" /><p>TerraNova provides portfolio-level oversight.</p></div>
+            <p className="system-caption">Terra Belle Foundation is a separate public-benefit organization and is not a VoltRide customer service. Entity roles and service scopes should be confirmed before contracting.</p>
           </div>
         </section>
 
         <section className="charge-section" id="infrastructure">
-          <div className="wrap charge-grid">
+          <div className="wrap charge-grid" data-reveal>
             <div className="charge-copy">
               <div className="eyebrow">04 / Energy & operations</div>
               <h2 className="display">Charging belongs in the route plan.</h2>
@@ -156,14 +229,14 @@ function Home() {
               </div>
             </div>
             <div className="charge-photo">
-              <img src="/brand-assets/b1_img03_1792051092142.jpg" alt="Illustrative high-power charging equipment" loading="lazy" />
+              <img src="/brand-assets/charging-depot.jpg" alt="Illustrative electric coach charging depot" loading="lazy" />
               <span>Charging equipment reference · illustrative</span>
             </div>
           </div>
         </section>
 
         <section className="lifecycle" id="battery">
-          <div className="wrap lifecycle-grid">
+          <div className="wrap lifecycle-grid" data-reveal>
             <div>
               <div className="eyebrow">05 / Battery lifecycle</div>
               <h2 className="display">The battery story does not end at the depot.</h2>
@@ -171,7 +244,7 @@ function Home() {
               <p>Battery ownership, leasing availability, residual value, reuse pathways and end-of-life processes are not assumed. They require verification and clear contractual definition.</p>
               <div className="cycle-steps"><div className="cycle-step">Vehicle<br />integration</div><div className="cycle-step">In-use<br />management</div><div className="cycle-step">Lifecycle<br />pathway</div></div>
             </div>
-            <div className="cycle-mark"><img src="/brand-assets/voltcycle_1792051092150.png" alt="VoltCycle Battery Lifecycle Management" loading="lazy" /></div>
+            <div className="cycle-mark"><img src="/brand-assets/battery-pack.jpg" alt="Illustrative electric coach battery pack" loading="lazy" /><div className="cycle-badge"><img src="/brand-assets/voltcycle-logo.png" alt="VoltCycle Battery Lifecycle Management" /></div></div>
           </div>
         </section>
 
@@ -182,17 +255,17 @@ function Home() {
               <p>OEM names and vehicles below are illustrative references for discussion — not an inventory, confirmed offer or statement of commercial relationship.</p>
             </div>
             <div className="reference-grid">
-              <article className="reference-card">
+              <article className="reference-card" data-reveal>
                 <div className="reference-image"><img src="/brand-assets/kinglong-ecoach01_1792051092145.png" alt="Illustrative King Long electric coach reference image" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><h3>King Long</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/kinglong-logo.png" alt="King Long" /><h3>King Long</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
               </article>
-              <article className="reference-card">
+              <article className="reference-card" data-reveal>
                 <div className="reference-image"><img src="/brand-assets/yutong-05_1792051092143.webp" alt="Illustrative Yutong coach in an urban setting" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><h3>Yutong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/yutong-logo.png" alt="Yutong" /><h3>Yutong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
               </article>
-              <article className="reference-card">
+              <article className="reference-card" data-reveal>
                 <div className="reference-image"><img src="/brand-assets/zhongtong-02_1792051092144.webp" alt="Illustrative Zhongtong coach reference image" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><h3>Zhongtong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/zhongtong-logo.png" alt="Zhongtong" /><h3>Zhongtong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
               </article>
             </div>
             <div className="reference-disclaimer">Model details, image permissions, availability, warranty and service arrangements, and any OEM or distribution partnership status are subject to verification. No rights, appointment or partnership is implied.</div>
@@ -200,7 +273,7 @@ function Home() {
         </section>
 
         <section className="contact-section" id="assessment">
-          <div className="wrap contact-grid">
+          <div className="wrap contact-grid" data-reveal>
             <div>
               <div className="eyebrow">07 / Start with the operation</div>
               <h2 className="display">Bring us your route.</h2>
@@ -226,7 +299,7 @@ function Home() {
       <footer className="footer">
         <div className="wrap">
           <div className="footer-main">
-            <div className="footer-brand"><img src="/brand-assets/voltride-02.0_1792051092150.png" alt="VoltRide Mobility" /><span>Electric mobility.<br />Connected by design.</span></div>
+            <div className="footer-brand"><img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" /><span>Electric mobility.<br />Connected by design.</span></div>
             <nav className="footer-links" aria-label="Footer navigation"><a href="#approach">Approach</a><a href="#coaches">Coaches</a><a href="#infrastructure">Infrastructure</a><a href="#assessment">Fleet assessment</a></nav>
           </div>
           <div className="footer-bottom"><p>© {new Date().getFullYear()} VoltRide Mobility</p><p className="org-note">All vehicle images and OEM references are illustrative and subject to verification. No specifications, availability, commercial terms, warranty, service or environmental performance are represented. Terra Belle Foundation is a separate public-benefit organization.</p></div>

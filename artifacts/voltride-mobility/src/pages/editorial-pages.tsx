@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { ArrowDownRight, ArrowRight, ArrowUpRight, BatteryCharging, BusFront, Check, MapPin, Route, Zap } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BatteryCharging, BusFront, Check, MapPin, Route, Zap } from 'lucide-react';
 import { Link } from 'wouter';
 import { EditorialMedia, EditorialSection, MotionReveal, PageIntro } from '@/components/editorial';
 import { partnerMedia } from '@/lib/media';
@@ -68,6 +68,7 @@ function ManufacturerPage({ profile }: { profile: ManufacturerProfile }) {
         number="01"
         eyebrow="Confirmed OEM partner"
         title={<>{profile.name}<br /><span>Built for the journey.</span></>}
+        media={{ src: profile.gallery[0], alt: `${profile.name} electric coach`, caption: `${profile.name} / vehicle reference` }}
         action={<Link className="button outline" href="/contact">Discuss a fleet requirement <ArrowRight aria-hidden="true" /></Link>}
       >
         {profile.statement}
@@ -159,7 +160,7 @@ export function ZhongtongPage() {
 export function ApproachPage() {
   return (
     <main>
-      <PageIntro number="01" eyebrow="Our approach" title={<>A fleet is a system.<br /><span>Start with the route.</span></>}>
+        <PageIntro number="01" eyebrow="Our approach" title={<>A fleet is a system.<br /><span>Start with the route.</span></>} media={{ src: partnerMedia.approachHeroImage, alt: 'VoltRide mobility route and fleet image', caption: 'Vehicle and energy / considered together' }}>
         VoltRide connects coach ownership, charging infrastructure, battery lifecycle and coordinated operations around the realities of intercity service in East Africa.
       </PageIntro>
       <EditorialSection number="02" eyebrow="A practical sequence" title="Decisions in the order they matter.">
@@ -190,7 +191,7 @@ export function ApproachPage() {
 export function CoachesPage() {
   return (
     <main>
-      <PageIntro number="02" eyebrow="Electric coaches" title={<>Choose for the<br /><span>journey, not the brochure.</span></>}>
+        <PageIntro number="02" eyebrow="Electric coaches" title={<>Choose for the<br /><span>journey, not the brochure.</span></>} media={{ src: manufacturers[0].gallery[0], alt: 'Electric coach reference from the OEM portfolio', caption: 'Electric coach / illustrative reference' }}>
         VoltRide works with operators to identify where an electric coach can fit, then brings manufacturer conversations into the route, depot and ownership picture.
       </PageIntro>
       <EditorialSection number="03" eyebrow="Vehicle landscape" title="Three manufacturer perspectives. One operator-led brief.">
@@ -236,10 +237,21 @@ export function VoltriumPage() {
         number="04"
         eyebrow="Charging infrastructure"
         title={<>Power the route.<br /><span>Plan the whole hub.</span></>}
+        media={{ src: '/brand-assets/charging-depot.jpg', alt: 'Electric coach charging depot', caption: 'Charging readiness / site context' }}
         action={<a className="button" href="https://voltrium.lucene.co" target="_blank" rel="noreferrer">Visit Voltrium <ArrowUpRight aria-hidden="true" /></a>}
       >
         Voltrium is VoltRide’s charging-infrastructure partner. Together, the planning starts with the vehicle duty cycle and works outward to the charging site, energy supply and operating plan.
       </PageIntro>
+
+      <section className="partner-brand-strip voltrium-brand-strip">
+        <div className="wrap partner-brand-row">
+          <div className="eyebrow">Charging infrastructure partner</div>
+          <a className="voltrium-brand-link" href="https://voltrium.lucene.co" target="_blank" rel="noreferrer" aria-label="Visit Voltrium website">
+            <img src={partnerMedia.voltriumLogo} alt="Voltrium" />
+            <span>Official website <ArrowUpRight aria-hidden="true" /></span>
+          </a>
+        </div>
+      </section>
 
       <section className="wrap voltrium-feature">
         <div className="voltrium-feature-copy">
@@ -276,7 +288,7 @@ export function VoltriumPage() {
 export function VoltCyclePage() {
   return (
     <main className="voltcycle-page" style={{ '--partner-backdrop': `url("${partnerMedia.voltcycleBackdrop}")` } as React.CSSProperties}>
-      <PageIntro number="05" eyebrow="Battery leasing and lifecycle" title={<>Plan beyond the<br /><span>first charge.</span></>}>
+        <PageIntro number="05" eyebrow="Battery leasing and lifecycle" title={<>Plan beyond the<br /><span>first charge.</span></>} media={{ src: partnerMedia.voltcycleHeroImage, alt: 'Electric vehicle battery modules and high-voltage wiring', caption: 'Battery lifecycle / system reference' }}>
         VoltCycle is the platform’s battery leasing and lifecycle-management capability, connecting battery decisions to how a fleet is financed, operated and maintained over time.
       </PageIntro>
       <section className="wrap battery-feature">
@@ -308,36 +320,73 @@ export function VoltCyclePage() {
 }
 
 export function EcosystemPage() {
-  const ecosystem = [
-    { number: '01', name: 'Vehicle partners', description: 'OEM relationships for coach and bus platforms, assessed against route and passenger requirements.', href: '/coaches', label: 'Explore coaches' },
-    { number: '02', name: 'Voltrium', description: 'Charging infrastructure planning connected to duty cycles, site context and energy readiness.', href: '/voltrium', label: 'Explore charging' },
-    { number: '03', name: 'VoltCycle', description: 'Battery leasing and lifecycle management considered across the fleet operating horizon.', href: '/voltcycle', label: 'Explore battery lifecycle' },
-    { number: '04', name: 'Autovance', description: 'Coordination across the platform and the operator journey.', href: '/contact', label: 'Discuss coordination' },
+  const [activeNodeId, setActiveNodeId] = useState('voltride');
+  const networkNodes = [
+    { id: 'voltride', className: 'node-voltride', name: 'VoltRide Mobility', role: 'Platform coordinator', logo: '/brand-assets/voltride-logo.png', detail: 'VoltRide owns or leases coaches and coordinates vehicle, energy and operating capabilities around the operator’s route.', href: '/approach', linkLabel: 'Our approach' },
+    { id: 'king-long', className: 'node-king-long', name: 'King Long', role: 'OEM partner', logo: '/brand-assets/kinglong-logo.png', detail: 'Confirmed OEM partner providing a coach-platform reference for route fit, passenger requirements and project-specific vehicle discussions.', href: '/partners/king-long', linkLabel: 'King Long profile' },
+    { id: 'yutong', className: 'node-yutong', name: 'Yutong', role: 'OEM partner', logo: '/brand-assets/yutong-logo.png', detail: 'Confirmed OEM partner bringing another manufacturer perspective to vehicle configuration and operator requirements.', href: '/partners/yutong', linkLabel: 'Yutong profile' },
+    { id: 'zhongtong', className: 'node-zhongtong', name: 'Zhongtong', role: 'OEM partner', logo: '/brand-assets/zhongtong-logo.png', detail: 'Confirmed OEM partner contributing coach and bus manufacturing perspective to route-specific fleet planning.', href: '/partners/zhongtong', linkLabel: 'Zhongtong profile' },
+    { id: 'voltrium', className: 'node-voltrium', name: 'Voltrium', role: 'Charging infrastructure', logo: partnerMedia.voltriumLogo, detail: 'Charging infrastructure planning connects vehicle duty cycles with site, equipment and energy readiness.', href: '/voltrium', linkLabel: 'Charging infrastructure' },
+    { id: 'voltcycle', className: 'node-voltcycle', name: 'VoltCycle', role: 'Battery lifecycle', logo: '/brand-assets/voltcycle-logo.png', detail: 'Battery leasing and lifecycle considerations are planned across the fleet operating horizon.', href: '/voltcycle', linkLabel: 'Battery lifecycle' },
+    { id: 'autovance', className: 'node-autovance', name: 'Autovance', role: 'Coordinated operations', logo: partnerMedia.autovanceLogo, detail: 'Coordinates platform operations and the customer journey across the mobility platform.', href: '/contact', linkLabel: 'Discuss coordination' },
+    { id: 'terranova', className: 'node-terranova', name: 'TerraNova', role: 'Portfolio oversight', logo: '/brand-assets/terranova-logo.png', detail: 'Portfolio-level oversight is distinct from day-to-day delivery responsibilities.', href: '', linkLabel: '' },
+  ];
+  const selectedNode = networkNodes.find((node) => node.id === activeNodeId) ?? networkNodes[0];
+  const networkEdges = [
+    'M500 330 C410 245 285 174 180 105',
+    'M500 330 C500 245 500 175 500 105',
+    'M500 330 C590 245 715 174 820 105',
+    'M500 330 C390 330 285 330 180 330',
+    'M500 330 C610 330 715 330 820 330',
+    'M500 330 C465 425 405 500 350 560',
+    'M500 330 C535 425 595 500 650 560',
   ];
 
   return (
     <main>
-      <PageIntro number="06" eyebrow="The coordinated system" title={<>The coach is visible.<br /><span>The system makes it work.</span></>}>
+      <PageIntro number="06" eyebrow="The coordinated system" title={<>The coach is visible.<br /><span>The system makes it work.</span></>} media={{ src: partnerMedia.ecosystemHeroImage, alt: 'Electric coach representing the VoltRide partner ecosystem', caption: 'A connected mobility platform / relationship map' }}>
         VoltRide brings distinct partner capabilities into a shared plan, with the operator’s route and service requirements as the organising brief.
       </PageIntro>
-      <section className="wrap ecosystem-map" aria-label="VoltRide mobility partner ecosystem">
-        <div className="ecosystem-orbit ecosystem-orbit-one" aria-hidden="true" />
-        <div className="ecosystem-orbit ecosystem-orbit-two" aria-hidden="true" />
-        <div className="ecosystem-core"><img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" width="174" height="54" /><span>COACH OWNER / LESSOR</span></div>
-        <div className="ecosystem-map-note"><span>ROUTE</span><ArrowDownRight aria-hidden="true" /><span>ENERGY</span><ArrowDownRight aria-hidden="true" /><span>OPERATIONS</span></div>
-      </section>
-      <EditorialSection number="07" eyebrow="Distinct roles, shared outcome" title="A coordinated journey from vehicle to service." className="editorial-section-tint">
-        <div className="ecosystem-grid">
-          {ecosystem.map((item) => (
-            <MotionReveal className="ecosystem-item" key={item.name}>
-              <span className="count">{item.number} / CAPABILITY</span>
-              <h3>{item.name}</h3>
-              <p>{item.description}</p>
-              <Link className="text-link" href={item.href}>{item.label} <ArrowRight aria-hidden="true" /></Link>
-            </MotionReveal>
-          ))}
+      <section className="wrap ecosystem-network-section" aria-label="VoltRide partner relationship network">
+        <div className="eyebrow">Select a node to explore its relationship</div>
+        <div className="ecosystem-network" style={{ '--ecosystem-watermark': `url("${partnerMedia.voltrideTransparentMark}")` } as React.CSSProperties}>
+          <svg className="ecosystem-network-edges" viewBox="0 0 1000 650" preserveAspectRatio="none" aria-hidden="true">
+            {networkEdges.map((edge) => <path d={edge} key={edge} />)}
+          </svg>
+          <div className="ecosystem-network-nodes">
+            {networkNodes.map((node) => (
+              <button
+                className={`ecosystem-network-node ${node.className}${activeNodeId === node.id ? ' is-active' : ''}`}
+                type="button"
+                key={node.id}
+                aria-pressed={activeNodeId === node.id}
+                onClick={() => setActiveNodeId(node.id)}
+              >
+                {node.logo ? <img src={node.logo} alt="" aria-hidden="true" /> : <span className="ecosystem-node-wordmark">{node.name}</span>}
+                <span className="ecosystem-node-name">{node.name}</span>
+                <span className="ecosystem-node-role">{node.role}</span>
+              </button>
+            ))}
+          </div>
         </div>
-      </EditorialSection>
+        <div className="ecosystem-selected" aria-live="polite">
+          {selectedNode.logo ? <img src={selectedNode.logo} alt="" aria-hidden="true" /> : <span className="ecosystem-selected-mark">{selectedNode.name.slice(0, 2).toUpperCase()}</span>}
+          <div>
+            <div className="eyebrow">{selectedNode.role}</div>
+            <h2 className="display">{selectedNode.name}</h2>
+            <p>{selectedNode.detail}</p>
+            {selectedNode.href ? <Link className="text-link" href={selectedNode.href}>{selectedNode.linkLabel} <ArrowRight aria-hidden="true" /></Link> : null}
+          </div>
+        </div>
+      </section>
+      <section className="wrap ecosystem-separate">
+        <div className="ecosystem-separate-rule" aria-hidden="true" />
+        <div className="ecosystem-separate-brand"><img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" /><div><div className="eyebrow">Outside the commercial partner network</div><h2 className="display">Terra Belle Foundation</h2><p>A separate public-benefit organisation, not shown as a VoltRide delivery partner.</p></div></div>
+        <div className="ecosystem-separate-links">
+          <Link className="text-link" href="/terra-belle">About Terra Belle <ArrowRight aria-hidden="true" /></Link>
+          <a className="ecosystem-terrabelle-logo" href="https://terrabelle.lucene.co" target="_blank" rel="noreferrer" aria-label="Visit Terra Belle Foundation website"><img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" /></a>
+        </div>
+      </section>
       <section className="wrap foundation-note">
         <div className="eyebrow">Separate public-benefit organisation</div>
         <h2 className="display">Terra Belle Foundation</h2>
@@ -351,12 +400,15 @@ export function EcosystemPage() {
 export function TerraBellePage() {
   return (
     <main className="foundation-page">
-      <PageIntro number="07" eyebrow="Independent organisation" title={<>Terra Belle<br /><span>Foundation.</span></>}>
+      <PageIntro number="07" eyebrow="Independent organisation" title={<>Terra Belle<br /><span>Foundation.</span></>} media={{ src: '/brand-assets/terranova-landscape.jpg', alt: 'Illustrative layered landscape in green and stone tones', caption: 'Distinct purpose / illustrative landscape' }}>
         Terra Belle Foundation is a separate public-benefit organisation. Its identity and purpose are distinct from VoltRide’s commercial mobility platform.
       </PageIntro>
       <EditorialSection number="08" eyebrow="Organisational clarity" title="Separate by design.">
         <div className="foundation-editorial">
-          <div className="foundation-seal" aria-hidden="true"><span>TB</span><i /><i /><i /></div>
+          <a className="foundation-logo-link" href="https://terrabelle.lucene.co" target="_blank" rel="noreferrer" aria-label="Visit Terra Belle Foundation website">
+            <img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" />
+            <span>Visit official website <ArrowUpRight aria-hidden="true" /></span>
+          </a>
           <div>
             <p className="editorial-lead">A clear distinction between organisations matters to operators, partners and the communities they serve.</p>
             <p>Terra Belle Foundation is not a VoltRide customer-service channel, and no operating, funding or delivery role is implied here. Any collaboration, mandate or programme should be described only when formally confirmed by the Foundation.</p>
@@ -453,7 +505,7 @@ export function ContactPage() {
 
   return (
     <main className="contact-page">
-      <PageIntro number="08" eyebrow="Contact VoltRide" title={<>Bring us your route.<br /><span>We’ll start there.</span></>}>
+      <PageIntro number="08" eyebrow="Contact VoltRide" title={<>Bring us your route.<br /><span>We’ll start there.</span></>} media={{ src: '/brand-assets/fleet-operations_1792051092148.jpg', alt: 'Fleet operations team coordinating a transport service', caption: 'Start with the operating context' }}>
         Fleet assessments, OEM discussions and infrastructure enquiries start with a conversation about the service you operate and the change you are considering.
       </PageIntro>
       <section className="wrap contact-page-grid">

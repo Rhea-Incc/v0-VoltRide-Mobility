@@ -80,15 +80,23 @@ export function PageIntro({
   title,
   children,
   action,
+  media,
 }: {
   number: string;
   eyebrow: string;
   title: ReactNode;
   children: ReactNode;
   action?: ReactNode;
+  media?: { src: string; alt: string; caption: string; fit?: 'cover' | 'contain' };
 }) {
   return (
-    <section className="wrap editorial-intro">
+    <section className={`wrap editorial-intro${media ? ' has-media' : ''}`}>
+      {media ? (
+        <figure className={`page-intro-media${media.fit === 'contain' ? ' fit-contain' : ''}`}>
+          <div className="page-intro-media-frame"><img src={media.src} alt={media.alt} fetchPriority="high" decoding="async" /></div>
+          <figcaption>{media.caption}</figcaption>
+        </figure>
+      ) : null}
       <MotionReveal className="editorial-intro-copy">
         <div className="eyebrow">{number} / {eyebrow}</div>
         <h1 className="display">{title}</h1>

@@ -20,6 +20,13 @@ import zhongtong02 from '@assets/zhongtong-02.webp';
 import zhongtongBackdrop from '@assets/zhongtong-bg_1792052493989.png';
 import terraNovaPhoto from '@assets/terra-nova_1792052493990.jpg';
 import voltcycleBackdrop from '@assets/voltcucle-bg_1792052493989.png';
+import voltrideTransparentMark from '@assets/voltride-bg_1792052493990.png';
+import approachHeroImage from '@assets/img-01_1792052493992.jpg';
+import ecosystemHeroImage from '@assets/e-coach-01_1792052493991.jpg';
+import terraBelleLogo from '@assets/terrabelle-bg.png';
+import voltriumLogo from '@assets/voltrium-logo-01.1 -bg.png';
+import autovanceLogo from '@assets/autovance-bg.png';
+import voltcycleHeroImage from '@assets/ev-bat.jpg';
 
 export const partnerMedia = {
   batteryPack,
@@ -34,4 +41,11 @@ export const partnerMedia = {
   zhongtong: { backdrop: zhongtongBackdrop, gallery: [zhongtong01, zhongtong02] },
   voltcycleBackdrop,
   terraNovaPhoto,
+  voltrideTransparentMark,
+  approachHeroImage,
+  ecosystemHeroImage,
+  terraBelleLogo,
+  voltriumLogo,
+  autovanceLogo,
+  voltcycleHeroImage,
 };

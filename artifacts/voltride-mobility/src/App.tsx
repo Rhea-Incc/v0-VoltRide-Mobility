@@ -14,18 +14,19 @@ import {
 } from 'wouter';
 import { SiteFrame } from '@/components/site-layout';
 import { partnerMedia } from '@/lib/media';
+import { preloadEditorialPages } from '@/lib/page-preload';
 
-const ApproachPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ApproachPage })));
-const CoachesPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.CoachesPage })));
-const ContactPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ContactPage })));
+const ApproachPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.ApproachPage })));
+const CoachesPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.CoachesPage })));
+const ContactPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.ContactPage })));
 const AdminInquiriesPage = lazy(() => import('@/pages/admin-inquiries'));
-const EcosystemPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.EcosystemPage })));
-const KingLongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.KingLongPage })));
-const TerraBellePage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.TerraBellePage })));
-const VoltriumPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.VoltriumPage })));
-const VoltCyclePage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.VoltCyclePage })));
-const YutongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.YutongPage })));
-const ZhongtongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ZhongtongPage })));
+const EcosystemPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.EcosystemPage })));
+const KingLongPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.KingLongPage })));
+const TerraBellePage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.TerraBellePage })));
+const VoltriumPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.VoltriumPage })));
+const VoltCyclePage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.VoltCyclePage })));
+const YutongPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.YutongPage })));
+const ZhongtongPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.ZhongtongPage })));
 
 const queryClient = new QueryClient();
 
@@ -247,7 +248,7 @@ function Home() {
               </div>
             </div>
             <div className="partner-ribbon" data-reveal><span className="eyebrow">Portfolio oversight</span><img className="partner-art" src="/brand-assets/terranova-landscape.jpg" alt="" /><img src="/brand-assets/terranova-logo.png" alt="TerraNova Infrastructure Group" /><p>TerraNova provides portfolio-level oversight.</p></div>
-            <p className="system-caption">Terra Belle Foundation is a separate public-benefit organization and is not a VoltRide customer service. Entity roles and service scopes should be confirmed before contracting.</p>
+            <p className="system-caption">Terra Belle Foundation is VoltRide’s green-funding partner and responds to green-energy initiatives that advance clean mobility. Funding scope and operational responsibilities are defined for each opportunity.</p>
           </div>
         </section>
 
@@ -339,7 +340,7 @@ function Router() {
   return (
     <RoutedErrorBoundary>
       <SiteFrame>
-        <Suspense fallback={<div className="route-loading" role="status">Loading VoltRide</div>}>
+        <Suspense fallback={null}>
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/approach" component={ApproachPage} />
@@ -384,6 +385,22 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
 }
 
 function App() {
+  useEffect(() => {
+    const warmPages = () => { void preloadEditorialPages(); };
+    const idleWindow = window as Window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number;
+      cancelIdleCallback?: (handle: number) => void;
+    };
+
+    if (idleWindow.requestIdleCallback) {
+      const handle = idleWindow.requestIdleCallback(warmPages, { timeout: 1200 });
+      return () => idleWindow.cancelIdleCallback?.(handle);
+    }
+
+    const handle = window.setTimeout(warmPages, 250);
+    return () => window.clearTimeout(handle);
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>

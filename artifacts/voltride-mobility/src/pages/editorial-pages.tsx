@@ -381,16 +381,16 @@ export function EcosystemPage() {
       </section>
       <section className="wrap ecosystem-separate">
         <div className="ecosystem-separate-rule" aria-hidden="true" />
-        <div className="ecosystem-separate-brand"><img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" /><div><div className="eyebrow">Outside the commercial partner network</div><h2 className="display">Terra Belle Foundation</h2><p>A separate public-benefit organisation, not shown as a VoltRide delivery partner.</p></div></div>
+        <div className="ecosystem-separate-brand"><img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" /><div><div className="eyebrow">Green funding & initiatives partner</div><h2 className="display">Terra Belle Foundation</h2><p>Terra Belle partners with VoltRide on green funding and responds to green-energy initiatives that support the shift to clean mobility.</p></div></div>
         <div className="ecosystem-separate-links">
           <Link className="text-link" href="/terra-belle">About Terra Belle <ArrowRight aria-hidden="true" /></Link>
           <a className="ecosystem-terrabelle-logo" href="https://terrabelle.lucene.co" target="_blank" rel="noreferrer" aria-label="Visit Terra Belle Foundation website"><img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" /></a>
         </div>
       </section>
       <section className="wrap foundation-note">
-        <div className="eyebrow">Separate public-benefit organisation</div>
-        <h2 className="display">Terra Belle Foundation</h2>
-        <p>Terra Belle Foundation is a separate organisation. It is not presented as a VoltRide customer service or as a contracted delivery partner.</p>
+        <div className="eyebrow">Funding the clean-energy transition</div>
+        <h2 className="display">Green finance. Cleaner journeys.</h2>
+        <p>Terra Belle Foundation brings green-funding and initiative-response capacity to VoltRide’s clean mobility work. Funding scope, eligibility and delivery responsibilities are assessed for each opportunity.</p>
         <Link className="text-link" href="/terra-belle">About Terra Belle Foundation <ArrowRight aria-hidden="true" /></Link>
       </section>
     </main>
@@ -400,26 +400,26 @@ export function EcosystemPage() {
 export function TerraBellePage() {
   return (
     <main className="foundation-page">
-      <PageIntro number="07" eyebrow="Independent organisation" title={<>Terra Belle<br /><span>Foundation.</span></>} media={{ src: '/brand-assets/terranova-landscape.jpg', alt: 'Illustrative layered landscape in green and stone tones', caption: 'Distinct purpose / illustrative landscape' }}>
-        Terra Belle Foundation is a separate public-benefit organisation. Its identity and purpose are distinct from VoltRide’s commercial mobility platform.
+      <PageIntro number="07" eyebrow="Green funding & initiatives partner" title={<>Terra Belle<br /><span>Foundation.</span></>} media={{ src: '/brand-assets/terranova-landscape.jpg', alt: 'Illustrative layered landscape in green and stone tones', caption: 'Green funding / clean-energy initiatives' }}>
+        Terra Belle Foundation partners with VoltRide on green funding and responds to green-energy initiatives, helping connect sustainable finance with the transition to cleaner mobility.
       </PageIntro>
-      <EditorialSection number="08" eyebrow="Organisational clarity" title="Separate by design.">
+      <EditorialSection number="08" eyebrow="Shared clean-energy purpose" title="Funding the transition together.">
         <div className="foundation-editorial">
           <a className="foundation-logo-link" href="https://terrabelle.lucene.co" target="_blank" rel="noreferrer" aria-label="Visit Terra Belle Foundation website">
             <img src={partnerMedia.terraBelleLogo} alt="Terra Belle Foundation" />
             <span>Visit official website <ArrowUpRight aria-hidden="true" /></span>
           </a>
           <div>
-            <p className="editorial-lead">A clear distinction between organisations matters to operators, partners and the communities they serve.</p>
-            <p>Terra Belle Foundation is not a VoltRide customer-service channel, and no operating, funding or delivery role is implied here. Any collaboration, mandate or programme should be described only when formally confirmed by the Foundation.</p>
+            <p className="editorial-lead">Terra Belle brings a green-funding perspective to VoltRide’s work and responds to initiatives that advance clean energy and low-emission transport.</p>
+            <p>The Foundation’s role is to help identify and respond to relevant green-energy initiatives and funding opportunities. Programme scope, eligibility, funding availability and delivery responsibilities are established for each opportunity, with operational delivery coordinated by the appropriate teams.</p>
           </div>
         </div>
       </EditorialSection>
       <section className="foundation-contact wrap">
-        <div className="eyebrow">Enquiries</div>
-        <h2 className="display">Looking for VoltRide?</h2>
-        <p>For electric coach, charging infrastructure or fleet enquiries, contact the VoltRide team directly.</p>
-        <Link className="button" href="/contact">Contact VoltRide <ArrowRight aria-hidden="true" /></Link>
+        <div className="eyebrow">Green energy initiatives</div>
+        <h2 className="display">Bring a funding opportunity forward.</h2>
+        <p>Explore Terra Belle’s work and current initiatives with the Foundation.</p>
+        <a className="button" href="https://terrabelle.lucene.co" target="_blank" rel="noreferrer">Visit Terra Belle <ArrowUpRight aria-hidden="true" /></a>
       </section>
     </main>
   );

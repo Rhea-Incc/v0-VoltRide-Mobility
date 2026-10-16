@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { ArrowRight, Menu, X } from 'lucide-react';
 import { Link } from 'wouter';
+import { preloadEditorialPages } from '@/lib/page-preload';
 
 const partnerLinks = [
   { href: '/partners/king-long', label: 'King Long' },
@@ -29,7 +30,7 @@ export function SiteHeader() {
       >
         {menuOpen ? <X size={22} /> : <Menu size={22} />}
       </button>
-      <nav className={`nav${menuOpen ? ' open' : ''}`} aria-label="Main navigation">
+      <nav className={`nav${menuOpen ? ' open' : ''}`} aria-label="Main navigation" onMouseEnter={() => void preloadEditorialPages()} onFocusCapture={() => void preloadEditorialPages()}>
         <Link href="/approach" onClick={closeMenu}>Our approach</Link>
         <Link href="/coaches" onClick={closeMenu}>Coaches</Link>
         <Link href="/voltrium" onClick={closeMenu}>Charging</Link>

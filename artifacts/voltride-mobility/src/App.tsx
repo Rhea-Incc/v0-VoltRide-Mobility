@@ -1,16 +1,31 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import { ArrowDown, ArrowRight, BatteryCharging, Menu, X, Zap, Activity, ShieldCheck, Route as RouteIcon } from 'lucide-react';
+import { ArrowDown, ArrowRight, BatteryCharging, Zap, Activity, ShieldCheck, Route as RouteIcon } from 'lucide-react';
 import {
   Route,
   Switch,
+  Link,
   useLocation,
   Router as WouterRouter,
 } from 'wouter';
+import { SiteFrame } from '@/components/site-layout';
+import { partnerMedia } from '@/lib/media';
+
+const ApproachPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ApproachPage })));
+const CoachesPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.CoachesPage })));
+const ContactPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ContactPage })));
+const AdminInquiriesPage = lazy(() => import('@/pages/admin-inquiries'));
+const EcosystemPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.EcosystemPage })));
+const KingLongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.KingLongPage })));
+const TerraBellePage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.TerraBellePage })));
+const VoltriumPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.VoltriumPage })));
+const VoltCyclePage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.VoltCyclePage })));
+const YutongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.YutongPage })));
+const ZhongtongPage = lazy(() => import('@/pages/editorial-pages').then((module) => ({ default: module.ZhongtongPage })));
 
 const queryClient = new QueryClient();
 
@@ -46,7 +61,6 @@ const capabilityDetails = {
 } as const;
 
 function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const [formStatus, setFormStatus] = useState('');
   const [activeNode, setActiveNode] = useState<keyof typeof capabilityDetails>('volt');
   const activeCapability = capabilityDetails[activeNode];
@@ -73,33 +87,37 @@ function Home() {
     return () => observer.disconnect();
   }, []);
 
-  function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setFormStatus('Your details have not been sent. VoltRide’s enquiry service is not connected yet.');
-  }
+    const form = event.currentTarget;
+    const values = new FormData(form);
+    if (String(values.get('website') ?? '').trim()) {
+      setFormStatus('Your enquiry has been received.');
+      return;
+    }
 
-  function closeMenu() {
-    setMenuOpen(false);
+    setFormStatus('Saving your enquiry…');
+    const payload = {
+      name: String(values.get('name') ?? '').trim(),
+      organisation: String(values.get('organisation') ?? '').trim(),
+      email: String(values.get('email') ?? '').trim(),
+      interest: String(values.get('interest') ?? '').trim(),
+      context: String(values.get('context') ?? '').trim(),
+      source: 'voltride-homepage',
+    };
+
+    try {
+      const { supabase } = await import('@/lib/supabase');
+      const { error } = await supabase.from('contact_inquiries').insert([payload]);
+      if (error) throw error;
+      setFormStatus('Your enquiry has been saved. The VoltRide team can follow up shortly.');
+      form.reset();
+    } catch (error) {
+      setFormStatus(error instanceof Error ? `We could not save your enquiry: ${error.message}` : 'We could not save your enquiry. Please try again later.');
+    }
   }
 
   return (
-    <div className="site">
-      <header className="wrap topbar">
-        <a className="brand" href="#top" aria-label="VoltRide Mobility home" onClick={closeMenu}>
-          <img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" />
-        </a>
-        <button className="menu-toggle" type="button" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)} data-testid="button-menu-toggle">
-          {menuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
-        <nav className={`nav${menuOpen ? ' open' : ''}`} aria-label="Main navigation">
-          <a href="#approach" onClick={closeMenu}>Our approach</a>
-          <a href="#coaches" onClick={closeMenu}>Coaches</a>
-          <a href="#infrastructure" onClick={closeMenu}>Infrastructure</a>
-          <a href="#ecosystem" onClick={closeMenu}>Ecosystem</a>
-          <a className="button" href="#assessment" onClick={closeMenu}>Request a fleet assessment <ArrowRight aria-hidden="true" /></a>
-        </nav>
-      </header>
-
       <main id="top">
         <section className="wrap hero" aria-labelledby="hero-title">
           <div className="hero-copy" data-reveal>
@@ -189,25 +207,43 @@ function Home() {
             <div className="system-canvas" aria-label="VoltRide mobility ecosystem. Select a capability to explore its role.">
               <div className="system-bg" aria-hidden="true" /><div className="orbit" aria-hidden="true" />
               <div className="pulse pulse-one" aria-hidden="true" /><div className="pulse pulse-two" aria-hidden="true" />
-              <div className="system-center"><span className="center-pulse" /><b>VOLTRIDE</b><span>COACH OWNER / LESSOR</span></div>
+              <div className="system-center"><span className="center-pulse" /><img className="system-center-logo" src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" /><span>COACH OWNER / LESSOR</span></div>
               <button type="button" data-testid="button-capability-voltrium" aria-pressed={activeNode === 'volt'} onClick={() => setActiveNode('volt')} className={`system-node node-volt ${activeNode === 'volt' ? 'selected' : ''}`}><span className="node-art art-charge"><Zap size={18} /></span><b>VOLTRIUM</b><span>Charging infrastructure represented as a distinct capability; scope and delivery arrangements require confirmation.</span></button>
               <button type="button" data-testid="button-capability-voltcycle" aria-pressed={activeNode === 'cycle'} onClick={() => setActiveNode('cycle')} className={`system-node node-cycle ${activeNode === 'cycle' ? 'selected' : ''}`}><span className="node-art art-cycle"><Activity size={18} /></span><b>VOLTCYCLE</b><span>Battery leasing and lifecycle services represented as a separate capability; specific offers require confirmation.</span></button>
               <button type="button" data-testid="button-capability-autovance" aria-pressed={activeNode === 'auto'} onClick={() => setActiveNode('auto')} className={`system-node node-auto ${activeNode === 'auto' ? 'selected' : ''}`}><span className="node-art art-auto"><RouteIcon size={18} /></span><b>AUTOVANCE</b><span>Coordinates platform operations and the customer journey across the mobility platform.</span></button>
               <button type="button" data-testid="button-capability-fleetsure" aria-pressed={activeNode === 'sure'} onClick={() => setActiveNode('sure')} className={`system-node node-sure ${activeNode === 'sure' ? 'selected' : ''}`}><span className="node-art art-sure"><ShieldCheck size={18} /></span><b>FLEETSURE</b><span>Potential ecosystem role is subject to verification. No service or coverage is implied.</span></button>
             </div>
             <div className="capability-detail" aria-live="polite" data-testid="status-selected-capability" data-reveal>
-              <div className="capability-copy">
+              <div
+                  className="capability-artwork"
+                  key={`art-${activeNode}`}
+                >
+                  {activeNode === 'volt' ? (
+                    <div className="capability-image-pair">
+                      <figure className="capability-image-frame capability-hub-frame">
+                        <img src={partnerMedia.chargingHub} alt="Fleet of electric coaches at a solar-powered charging hub" loading="lazy" decoding="async" />
+                        <figcaption>CHARGING HUB</figcaption>
+                      </figure>
+                      <figure className="capability-image-frame capability-charger-frame">
+                        <img src={partnerMedia.chargerCabinet} alt="High-power electric coach charging cabinet" loading="lazy" decoding="async" />
+                        <figcaption>CHARGER SYSTEM</figcaption>
+                      </figure>
+                    </div>
+                  ) : activeCapability.image ? (
+                    <img src={activeCapability.image} alt={activeCapability.imageAlt} loading="lazy" decoding="async" />
+                  ) : (
+                    <ShieldCheck size={54} aria-hidden="true" />
+                  )}
+                  <span className="artwork-tag">{activeCapability.artLabel}</span>
+              </div>
+              <div
+                className="capability-copy"
+                key={`copy-${activeNode}`}
+              >
                 <div className="eyebrow">Selected capability</div>
                 <h3>{activeCapability.title}</h3>
                 <p>{activeCapability.description}</p>
-              </div>
-              <div className={`capability-artwork${activeCapability.image ? '' : ' no-photo'}`}>
-                {activeCapability.image ? (
-                  <img src={activeCapability.image} alt={activeCapability.imageAlt} loading="lazy" />
-                ) : (
-                  <ShieldCheck size={54} aria-hidden="true" />
-                )}
-                <span className="artwork-tag">{activeCapability.artLabel}</span>
+                {activeNode === 'volt' ? <a className="text-link" href="https://voltrium.lucene.co" target="_blank" rel="noreferrer">Visit Voltrium <ArrowRight aria-hidden="true" /></a> : null}
               </div>
             </div>
             <div className="partner-ribbon" data-reveal><span className="eyebrow">Portfolio oversight</span><img className="partner-art" src="/brand-assets/terranova-landscape.jpg" alt="" /><img src="/brand-assets/terranova-logo.png" alt="TerraNova Infrastructure Group" /><p>TerraNova provides portfolio-level oversight.</p></div>
@@ -251,24 +287,23 @@ function Home() {
         <section className="section reference-section" id="oem">
           <div className="wrap">
             <div className="section-head">
-              <div><div className="eyebrow">06 / Vehicle landscape</div><h2 className="display">Explore the landscape.<br />Verify the particulars.</h2></div>
-              <p>OEM names and vehicles below are illustrative references for discussion — not an inventory, confirmed offer or statement of commercial relationship.</p>
+              <div><div className="eyebrow">06 / Manufacturer partners</div><h2 className="display">Built by specialists.<br />Chosen for the route.</h2></div>
+              <p>VoltRide works with established coach manufacturers, connecting their vehicle expertise to the route, energy and operating context of each project.</p>
             </div>
             <div className="reference-grid">
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/kinglong-ecoach01_1792051092145.png" alt="Illustrative King Long electric coach reference image" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/kinglong-logo.png" alt="King Long" /><h3>King Long</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-image"><img src="/brand-assets/kinglong-ecoach01_1792051092145.png" alt="King Long electric coach" loading="lazy" decoding="async" /></div>
+                <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/kinglong-logo.png" alt="King Long" /><h3>King Long</h3><p>Manufacturer expertise in electric coach design, passenger environments and vehicle platforms for route-led fleet planning.</p><Link href="/partners/king-long" className="text-link">Meet King Long <ArrowRight aria-hidden="true" /></Link></div>
               </article>
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/yutong-05_1792051092143.webp" alt="Illustrative Yutong coach in an urban setting" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/yutong-logo.png" alt="Yutong" /><h3>Yutong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-image"><img src="/brand-assets/yutong-05_1792051092143.webp" alt="Yutong coach on an urban route" loading="lazy" decoding="async" /></div>
+                <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/yutong-logo.png" alt="Yutong" /><h3>Yutong</h3><p>Passenger-vehicle design and manufacturer experience brought into operator-led coach and bus discussions.</p><Link href="/partners/yutong" className="text-link">Meet Yutong <ArrowRight aria-hidden="true" /></Link></div>
               </article>
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/zhongtong-02_1792051092144.webp" alt="Illustrative Zhongtong coach reference image" loading="lazy" /></div>
-                <div className="reference-text"><div className="eyebrow">Illustrative OEM reference</div><img className="oem-logo" src="/brand-assets/zhongtong-logo.png" alt="Zhongtong" /><h3>Zhongtong</h3><p>Shown for vehicle landscape discussion only. No specific model, availability or relationship is represented.</p></div>
+                <div className="reference-image"><img src="/brand-assets/zhongtong-02_1792051092144.webp" alt="Zhongtong coach" loading="lazy" decoding="async" /></div>
+                <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/zhongtong-logo.png" alt="Zhongtong" /><h3>Zhongtong</h3><p>Coach and bus manufacturing perspective connected to the service conditions and operating needs of each fleet.</p><Link href="/partners/zhongtong" className="text-link">Meet Zhongtong <ArrowRight aria-hidden="true" /></Link></div>
               </article>
             </div>
-            <div className="reference-disclaimer">Model details, image permissions, availability, warranty and service arrangements, and any OEM or distribution partnership status are subject to verification. No rights, appointment or partnership is implied.</div>
           </div>
         </section>
 
@@ -282,6 +317,7 @@ function Home() {
               <div className="contact-meta">East Africa · Intercity coach mobility</div>
             </div>
             <form className="lead-form" onSubmit={handleLeadSubmit}>
+              <div className="contact-trap" aria-hidden="true"><label htmlFor="home-website">Website</label><input id="home-website" name="website" tabIndex={-1} autoComplete="off" /></div>
               <div className="field"><label htmlFor="name">Name</label><input id="name" name="name" autoComplete="name" placeholder="Your name" required data-testid="input-name" /></div>
               <div className="field"><label htmlFor="organisation">Organisation</label><input id="organisation" name="organisation" autoComplete="organization" placeholder="Operator or organisation" required data-testid="input-organisation" /></div>
               <div className="field"><label htmlFor="email">Work email</label><input id="email" name="email" type="email" autoComplete="email" placeholder="you@company.com" required data-testid="input-email" /></div>
@@ -289,41 +325,61 @@ function Home() {
               <div className="field full"><label htmlFor="context">A little context</label><textarea id="context" name="context" placeholder="Routes, fleet context, timing or the question you are working through" data-testid="input-context" /></div>
               <div className="form-bottom">
                 <button className="button" type="submit" data-testid="button-submit-assessment">Prepare enquiry <ArrowRight aria-hidden="true" /></button>
-                <p className="form-note">This form is a frontend demonstration. It does not send or store your details.</p>
+                <p className="form-note">Your enquiry is stored securely with the VoltRide team.</p>
               </div>
               <div className="form-status" role="status" aria-live="polite" data-testid="status-form">{formStatus}</div>
             </form>
           </div>
         </section>
       </main>
-      <footer className="footer">
-        <div className="wrap">
-          <div className="footer-main">
-            <div className="footer-brand"><img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" /><span>Electric mobility.<br />Connected by design.</span></div>
-            <nav className="footer-links" aria-label="Footer navigation"><a href="#approach">Approach</a><a href="#coaches">Coaches</a><a href="#infrastructure">Infrastructure</a><a href="#assessment">Fleet assessment</a></nav>
-          </div>
-          <div className="footer-bottom"><p>© {new Date().getFullYear()} VoltRide Mobility</p><p className="org-note">All vehicle images and OEM references are illustrative and subject to verification. No specifications, availability, commercial terms, warranty, service or environmental performance are represented. Terra Belle Foundation is a separate public-benefit organization.</p></div>
-        </div>
-      </footer>
-    </div>
   );
 }
 
 function Router() {
   return (
-    // Keep a shared shell (sidebar, navbar) outside the boundary so it
-    // survives a page crash.
     <RoutedErrorBoundary>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route component={NotFound} />
-      </Switch>
+      <SiteFrame>
+        <Suspense fallback={<div className="route-loading" role="status">Loading VoltRide</div>}>
+          <Switch>
+            <Route path="/" component={Home} />
+            <Route path="/approach" component={ApproachPage} />
+            <Route path="/coaches" component={CoachesPage} />
+            <Route path="/voltrium" component={VoltriumPage} />
+            <Route path="/voltcycle" component={VoltCyclePage} />
+            <Route path="/ecosystem" component={EcosystemPage} />
+            <Route path="/partners/king-long" component={KingLongPage} />
+            <Route path="/partners/yutong" component={YutongPage} />
+            <Route path="/partners/zhongtong" component={ZhongtongPage} />
+            <Route path="/terra-belle" component={TerraBellePage} />
+            <Route path="/contact" component={ContactPage} />
+            <Route path="/admin/inquiries" component={AdminInquiriesPage} />
+            <Route component={NotFound} />
+          </Switch>
+        </Suspense>
+      </SiteFrame>
     </RoutedErrorBoundary>
   );
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   const [location] = useLocation();
+  useEffect(() => {
+    const titles: Record<string, string> = {
+      '/': 'VoltRide Mobility | Electric intercity coach platform',
+      '/approach': 'Our Approach | VoltRide Mobility',
+      '/coaches': 'Electric Coaches | VoltRide Mobility',
+      '/voltrium': 'Charging Infrastructure | VoltRide Mobility',
+      '/voltcycle': 'Battery Lifecycle | VoltRide Mobility',
+      '/ecosystem': 'Coordinated Mobility System | VoltRide Mobility',
+      '/partners/king-long': 'King Long OEM Partner | VoltRide Mobility',
+      '/partners/yutong': 'Yutong OEM Partner | VoltRide Mobility',
+      '/partners/zhongtong': 'Zhongtong OEM Partner | VoltRide Mobility',
+      '/terra-belle': 'Terra Belle Foundation | VoltRide Mobility',
+      '/contact': 'Contact VoltRide Mobility',
+      '/admin/inquiries': 'Inquiry Desk | VoltRide Mobility',
+    };
+    document.title = titles[location] ?? 'VoltRide Mobility';
+  }, [location]);
   return <ErrorBoundary resetKey={location}>{children}</ErrorBoundary>;
 }
 

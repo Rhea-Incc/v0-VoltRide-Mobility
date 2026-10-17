@@ -5,6 +5,13 @@ import { EditorialMedia, EditorialSection, MotionReveal, PageIntro } from '@/com
 import { partnerMedia } from '@/lib/media';
 import { supabase } from '@/lib/supabase';
 
+type ManufacturerModel = {
+  id: string;
+  name: string;
+  images: string[];
+  note?: string;
+};
+
 type ManufacturerProfile = {
   name: string;
   route: string;
@@ -17,6 +24,7 @@ type ManufacturerProfile = {
   productScope: string;
   gallery: string[];
   captions: string[];
+  models?: ManufacturerModel[];
 };
 
 const manufacturers: ManufacturerProfile[] = [
@@ -42,9 +50,10 @@ const manufacturers: ManufacturerProfile[] = [
     philosophy: 'Yutong’s manufacturer role spans passenger vehicles designed for distinct service patterns. For VoltRide, that perspective supports a practical conversation about coach and bus formats, passenger experience and the demands of each operator’s route.',
     projectRole: 'Yutong is a confirmed OEM partner. VoltRide brings its vehicle conversations into a broader deployment plan, connecting vehicle selection with charging readiness, route duty cycles and operator requirements.',
     impact: 'This relationship expands the range of manufacturer options that can be considered with operators. The specific vehicle, equipment, commercial terms and local support approach are confirmed only after the operating brief is understood.',
-    productScope: 'The supplied portfolio imagery includes coach-form vehicles. Coach and bus families can be discussed with the manufacturer, but exact model names, battery configurations and performance figures are not present in the supplied materials.',
+    productScope: 'The supplied portfolio includes C13E, E11PRO, IC12E and T15E model imagery, alongside E11PRO, E12 and U-series specification references. Final configuration, availability and operating performance must be confirmed for each project.',
     gallery: partnerMedia.yutong.gallery,
     captions: ['Yutong coach on route', 'Yutong coach exterior', 'Coach design reference'],
+    models: partnerMedia.yutong.models,
   },
   {
     name: 'Zhongtong',
@@ -104,18 +113,94 @@ function ManufacturerPage({ profile }: { profile: ManufacturerProfile }) {
             <p>{profile.productScope}</p>
           </div>
         </div>
-        <div className="partner-gallery">
-          {profile.gallery.map((image, index) => (
-            <EditorialMedia
-              key={image}
-              src={image}
-              alt={`${profile.name} ${profile.captions[index] ?? 'vehicle reference'}`}
-              caption={profile.captions[index] ?? `${profile.name} vehicle reference`}
-              className={`partner-gallery-item gallery-item-${index + 1}`}
-              fit={index === 0 && profile.name === 'King Long' ? 'contain' : 'cover'}
-            />
-          ))}
-        </div>
+        {profile.models ? (
+          <div className="yutong-model-groups">
+            {profile.models.map((model, modelIndex) => (
+              <section className="yutong-model-group" key={model.id} aria-labelledby={`yutong-model-${model.id}`}>
+                <header className="yutong-model-heading">
+                  <span>{String(modelIndex + 1).padStart(2, '0')} / MODEL REFERENCE</span>
+                  <h3 id={`yutong-model-${model.id}`}>{model.name}</h3>
+                  <span>{model.images.length} supplied images</span>
+                </header>
+                {model.images.length > 0 ? (
+                  <div className="partner-gallery yutong-model-gallery">
+                    {model.images.map((image, imageIndex) => (
+                      <EditorialMedia
+                        key={image}
+                        src={image}
+                        alt={`${model.name} Yutong model image ${imageIndex + 1}`}
+                        caption={`${model.name} / reference ${String(imageIndex + 1).padStart(2, '0')}`}
+                        className={`partner-gallery-item gallery-item-${imageIndex + 1}`}
+                        fit="contain"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="yutong-model-placeholder" role="note" aria-live="polite">
+                    <div className="eyebrow">Reference-only model entry</div>
+                    <p>{model.note ?? `No image assets were supplied for ${model.name} in the current source package.`}</p>
+                  </div>
+                )}
+              </section>
+            ))}
+            <section className="yutong-specifications" aria-labelledby="yutong-specs-title">
+              <div className="yutong-spec-intro">
+                <div className="eyebrow">Supplied specification references</div>
+                <h3 id="yutong-specs-title" className="display">Capacity, range and configuration.</h3>
+                <p>Values below are transcribed from the supplied Yutong reference images. Confirm the applicable market, configuration and test conditions with the manufacturer before using them for a fleet decision.</p>
+              </div>
+              <div className="yutong-spec-panels">
+                <article className="yutong-spec-panel">
+                  <div className="eyebrow">E-bus</div>
+                  <h4>E11PRO</h4>
+                  <dl>
+                    <div><dt>Dimensions</dt><dd>11,200 × 2,550 × 3,290 mm</dd></div>
+                    <div><dt>Seats</dt><dd>30 + 1</dd></div>
+                    <div><dt>Passengers</dt><dd>72</dd></div>
+                    <div><dt>Battery capacity</dt><dd>350 kWh</dd></div>
+                    <div><dt>Tyre</dt><dd>Goodyear 305/70 R22.5</dd></div>
+                    <div><dt>Minimum turning diameter</dt><dd>≤20 m</dd></div>
+                  </dl>
+                </article>
+                <article className="yutong-spec-panel">
+                  <div className="eyebrow">E-bus / model code ZK6128BEVG</div>
+                  <h4>E12 passenger configurations</h4>
+                  <dl>
+                    <div><dt>Configuration A</dt><dd>70 passengers</dd></div>
+                    <div><dt>Configuration B</dt><dd>61 passengers</dd></div>
+                  </dl>
+                </article>
+              </div>
+              <div className="yutong-coach-specs">
+                <div className="eyebrow">U-series coach references</div>
+                <div className="yutong-spec-table-wrap">
+                  <table className="yutong-spec-table">
+                    <thead><tr><th>Model</th><th>Length</th><th>Passengers</th><th>Battery</th><th>Range</th></tr></thead>
+                    <tbody>
+                      <tr><th scope="row">U11DD</th><td>11 m</td><td>82</td><td>385 kWh</td><td>&gt;400 km</td></tr>
+                      <tr><th scope="row">U12</th><td>12 m</td><td>72</td><td>422 kWh</td><td>&gt;432 km</td></tr>
+                      <tr><th scope="row">U13</th><td>13 m</td><td>72</td><td>422 kWh</td><td>&gt;420 km</td></tr>
+                      <tr><th scope="row">U18</th><td>18 m</td><td>115</td><td>563 kWh</td><td>&gt;500 km</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        ) : (
+          <div className="partner-gallery">
+            {profile.gallery.map((image, index) => (
+              <EditorialMedia
+                key={image}
+                src={image}
+                alt={`${profile.name} ${profile.captions[index] ?? 'vehicle reference'}`}
+                caption={profile.captions[index] ?? `${profile.name} vehicle reference`}
+                className={`partner-gallery-item gallery-item-${index + 1}`}
+                fit={index === 0 && profile.name === 'King Long' ? 'contain' : 'cover'}
+              />
+            ))}
+          </div>
+        )}
       </EditorialSection>
 
       {profile.name === 'King Long' ? (

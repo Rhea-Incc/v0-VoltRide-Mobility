@@ -27,6 +27,30 @@ import terraBelleLogo from '@assets/terrabelle-bg.png';
 import voltriumLogo from '@assets/voltrium-logo-01.1 -bg.png';
 import autovanceLogo from '@assets/autovance-bg.png';
 import voltcycleHeroImage from '@assets/ev-bat.jpg';
+import yutongC13E01 from '@assets/yutong/C13E/01.jpeg';
+import yutongC13E02 from '@assets/yutong/C13E/02.jpeg';
+import yutongC13E03 from '@assets/yutong/C13E/03.jpeg';
+import yutongC13E04 from '@assets/yutong/C13E/04.jpeg';
+import yutongC13E05 from '@assets/yutong/C13E/05.jpeg';
+import yutongC13E06 from '@assets/yutong/C13E/06.jpg';
+import yutongC13E07 from '@assets/yutong/C13E/07.jpg';
+import yutongE11PRO01 from '@assets/yutong/E11PRO/011.webp';
+import yutongE11PRO02 from '@assets/yutong/E11PRO/02.webp';
+import yutongE11PRO03 from '@assets/yutong/E11PRO/03.webp';
+import yutongE11PRO04 from '@assets/yutong/E11PRO/04.webp';
+import yutongE11PRO05 from '@assets/yutong/E11PRO/05.webp';
+import yutongE11PRO06 from '@assets/yutong/E11PRO/06.webp';
+import yutongE11PRO07 from '@assets/yutong/E11PRO/07.webp';
+import yutongIC12E01 from '@assets/yutong/IC12E/01.webp';
+import yutongIC12E02 from '@assets/yutong/IC12E/02.webp';
+import yutongIC12E03 from '@assets/yutong/IC12E/03.webp';
+import yutongIC12E04 from '@assets/yutong/IC12E/04.webp';
+import yutongIC12E05 from '@assets/yutong/IC12E/05.webp';
+import yutongT15E01 from '@assets/yutong/T15E/ov-img1.webp';
+import yutongT15E02 from '@assets/yutong/T15E/02.webp';
+import yutongT15E03 from '@assets/yutong/T15E/03.webp';
+import yutongT15E04 from '@assets/yutong/T15E/04.webp';
+import yutongT15E05 from '@assets/yutong/T15E/05.webp';
 
 export const partnerMedia = {
   batteryPack,
@@ -37,7 +61,18 @@ export const partnerMedia = {
     gallery: [kingLongCoach, kingLong04, kingLong05, kingLong06, kingLong07, kingLong08, interior01, interior02],
     video: kingLongVideo,
   },
-  yutong: { backdrop: yutongBackdrop, gallery: [yutong02, yutong04, yutong05] },
+  yutong: {
+    backdrop: yutongBackdrop,
+    gallery: [yutong02, yutong04, yutong05],
+    models: [
+      { id: 'c13e', name: 'C13E', images: [yutongC13E01, yutongC13E02, yutongC13E03, yutongC13E04, yutongC13E05, yutongC13E06, yutongC13E07] },
+      { id: 'e11pro', name: 'E11PRO', images: [yutongE11PRO01, yutongE11PRO02, yutongE11PRO03, yutongE11PRO04, yutongE11PRO05, yutongE11PRO06, yutongE11PRO07] },
+      { id: 'ic12e', name: 'IC12E', images: [yutongIC12E01, yutongIC12E02, yutongIC12E03, yutongIC12E04, yutongIC12E05] },
+      { id: 't15e', name: 'T15E', images: [yutongT15E01, yutongT15E02, yutongT15E03, yutongT15E04, yutongT15E05] },
+      { id: 'e12', name: 'E12', images: [], note: 'No image assets were supplied in the current source package; this entry remains a specification reference only.' },
+      { id: 'u-series', name: 'U-series', images: [], note: 'No dedicated images were supplied for this coach family in the current source package; this entry is retained as a specification-only reference.' },
+    ],
+  },
   zhongtong: { backdrop: zhongtongBackdrop, gallery: [zhongtong01, zhongtong02] },
   voltcycleBackdrop,
   terraNovaPhoto,

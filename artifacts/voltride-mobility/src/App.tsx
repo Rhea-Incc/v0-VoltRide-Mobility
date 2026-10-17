@@ -293,15 +293,15 @@ function Home() {
             </div>
             <div className="reference-grid">
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/kinglong-ecoach01_1792051092145.png" alt="King Long electric coach" loading="lazy" decoding="async" /></div>
+                <div className="reference-image"><img src="/brand-assets/kinglong-ecoach01_1792051092145.png" alt="King Long electric coach" loading="lazy" decoding="async" /><span className="reference-image-index" aria-hidden="true">01 / VEHICLE FORM</span></div>
                 <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/kinglong-logo.png" alt="King Long" /><h3>King Long</h3><p>Manufacturer expertise in electric coach design, passenger environments and vehicle platforms for route-led fleet planning.</p><Link href="/partners/king-long" className="text-link">Meet King Long <ArrowRight aria-hidden="true" /></Link></div>
               </article>
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/yutong-05_1792051092143.webp" alt="Yutong coach on an urban route" loading="lazy" decoding="async" /></div>
+                <div className="reference-image"><img src="/brand-assets/yutong-05_1792051092143.webp" alt="Yutong coach on an urban route" loading="lazy" decoding="async" /><span className="reference-image-index" aria-hidden="true">02 / PASSENGER CONTEXT</span></div>
                 <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/yutong-logo.png" alt="Yutong" /><h3>Yutong</h3><p>Passenger-vehicle design and manufacturer experience brought into operator-led coach and bus discussions.</p><Link href="/partners/yutong" className="text-link">Meet Yutong <ArrowRight aria-hidden="true" /></Link></div>
               </article>
               <article className="reference-card" data-reveal>
-                <div className="reference-image"><img src="/brand-assets/zhongtong-02_1792051092144.webp" alt="Zhongtong coach" loading="lazy" decoding="async" /></div>
+                <div className="reference-image"><img src="/brand-assets/zhongtong-02_1792051092144.webp" alt="Zhongtong coach" loading="lazy" decoding="async" /><span className="reference-image-index" aria-hidden="true">03 / ROUTE REFERENCE</span></div>
                 <div className="reference-text"><div className="eyebrow">Confirmed OEM partner</div><img className="oem-logo" src="/brand-assets/zhongtong-logo.png" alt="Zhongtong" /><h3>Zhongtong</h3><p>Coach and bus manufacturing perspective connected to the service conditions and operating needs of each fleet.</p><Link href="/partners/zhongtong" className="text-link">Meet Zhongtong <ArrowRight aria-hidden="true" /></Link></div>
               </article>
             </div>

@@ -14,7 +14,7 @@ import {
 } from 'wouter';
 import { SiteFrame } from '@/components/site-layout';
 import { partnerMedia } from '@/lib/media';
-import { preloadEditorialPages } from '@/lib/page-preload';
+import { preloadCriticalAssets, preloadEditorialPages } from '@/lib/page-preload';
 
 const ApproachPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.ApproachPage })));
 const CoachesPage = lazy(() => preloadEditorialPages().then((module) => ({ default: module.CoachesPage })));
@@ -67,6 +67,8 @@ function Home() {
   const activeCapability = capabilityDetails[activeNode];
 
   useEffect(() => {
+    preloadCriticalAssets();
+
     if (
       window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
       !('IntersectionObserver' in window)
@@ -133,7 +135,7 @@ function Home() {
           </div>
             <div className="hero-visual">
             <div className="hero-image">
-                <img src="/brand-assets/e-coach-hero.jpg" alt="Illustrative electric coach in a dramatic studio setting" />
+                <img src="/brand-assets/e-coach-hero.jpg" alt="Illustrative electric coach in a dramatic studio setting" fetchPriority="high" decoding="async" loading="eager" />
             </div>
               <div className="hero-mark"><BatteryCharging aria-hidden="true" /><span>VEHICLE<br />+ ENERGY<br />+ OPERATIONS</span></div>
               <div className="hero-coordinate">01°17' S&nbsp; / &nbsp;36°49' E <i /></div>
@@ -156,7 +158,7 @@ function Home() {
             </div>
             <div className="coach-layout" data-reveal>
               <div className="coach-photo">
-                <img src="/brand-assets/electric-coach.jpg" alt="Illustrative electric coach at a depot" loading="lazy" />
+                <img src="/brand-assets/electric-coach.jpg" alt="Illustrative electric coach at a depot" loading="lazy" decoding="async" fetchPriority="low" />
                 <div className="photo-index">01 — ELECTRIC COACH REFERENCE</div>
               </div>
               <div className="coach-details">

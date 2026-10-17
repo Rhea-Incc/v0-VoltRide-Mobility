@@ -15,6 +15,8 @@ import yutong02 from '@assets/yutong-02.jpg';
 import yutong04 from '@assets/yutong-04.webp';
 import yutong05 from '@assets/yutong-05.webp';
 import yutongBackdrop from '@assets/yutong-bg_1792052493987.png';
+
+const yutongPlaceholderImages = [yutong02, yutong04, yutong05];
 import zhongtong01 from '@assets/zhongtong-01.webp';
 import zhongtong02 from '@assets/zhongtong-02.webp';
 import zhongtongBackdrop from '@assets/zhongtong-bg_1792052493989.png';
@@ -69,8 +71,8 @@ export const partnerMedia = {
       { id: 'e11pro', name: 'E11PRO', images: [yutongE11PRO01, yutongE11PRO02, yutongE11PRO03, yutongE11PRO04, yutongE11PRO05, yutongE11PRO06, yutongE11PRO07] },
       { id: 'ic12e', name: 'IC12E', images: [yutongIC12E01, yutongIC12E02, yutongIC12E03, yutongIC12E04, yutongIC12E05] },
       { id: 't15e', name: 'T15E', images: [yutongT15E01, yutongT15E02, yutongT15E03, yutongT15E04, yutongT15E05] },
-      { id: 'e12', name: 'E12', images: [], note: 'No image assets were supplied in the current source package; this entry remains a specification reference only.' },
-      { id: 'u-series', name: 'U-series', images: [], note: 'No dedicated images were supplied for this coach family in the current source package; this entry is retained as a specification-only reference.' },
+      { id: 'e12', name: 'E12', images: yutongPlaceholderImages, note: 'Placeholder model reference — imagery and exact specification details are still to be confirmed from the manufacturer.' },
+      { id: 'u-series', name: 'U-series', images: yutongPlaceholderImages.slice(0, 2), note: 'Placeholder coach family reference — no dedicated image set was supplied in the current source package.' },
     ],
   },
   zhongtong: { backdrop: zhongtongBackdrop, gallery: [zhongtong01, zhongtong02] },

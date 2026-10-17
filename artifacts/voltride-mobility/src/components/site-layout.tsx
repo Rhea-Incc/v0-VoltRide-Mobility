@@ -19,7 +19,7 @@ export function SiteHeader() {
   return (
     <header className="wrap topbar">
       <Link className="brand" href="/" aria-label="VoltRide Mobility home" onClick={closeMenu}>
-        <img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" width="188" height="48" />
+        <img src="/brand-assets/voltride-logo.png" alt="VoltRide Mobility" width="188" height="48" fetchPriority="high" decoding="async" />
       </Link>
       <button
         className="menu-toggle"

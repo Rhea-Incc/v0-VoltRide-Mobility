@@ -94,6 +94,8 @@
   body { @apply font-sans antialiased bg-background text-foreground; margin: 0; }
   button, a, input, select, textarea { font: inherit; }
   :focus-visible { outline: 3px solid #536D7C; outline-offset: 4px; }
+  section, article, nav, footer, figure { content-visibility: auto; contain-intrinsic-size: 1200px 700px; }
+  img { content-visibility: auto; }
 }
 
 :root { --ink: #17242B; --steel: #536D7C; --deep-slate: #263943; --silver: #D8E0E4; --paper: #F4F6F7; --line: #D8E0E4; --muted-ink: #536D7C; --mist:#EAF0F2; --signal:#8DA8B5; }

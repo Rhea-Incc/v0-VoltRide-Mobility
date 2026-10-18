@@ -14,7 +14,11 @@ const partnerLinks = [
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const closeMenu = () => setMenuOpen(false);
+  const [partnersOpen, setPartnersOpen] = useState(false);
+  const closeMenu = () => {
+    setMenuOpen(false);
+    setPartnersOpen(false);
+  };
 
   return (
     <header className="wrap topbar">
@@ -35,14 +39,24 @@ export function SiteHeader() {
         <Link href="/coaches" onClick={closeMenu}>Coaches</Link>
         <Link href="/voltrium" onClick={closeMenu}>Charging</Link>
         <Link href="/ecosystem" onClick={closeMenu}>Ecosystem</Link>
-        <details className="nav-partners">
-          <summary>Partners</summary>
-          <div className="nav-partner-menu">
-            {partnerLinks.map((partner) => (
-              <Link key={partner.href} href={partner.href} onClick={closeMenu}>{partner.label}</Link>
-            ))}
-          </div>
-        </details>
+        <div className={`nav-partners${partnersOpen ? ' open' : ''}`}>
+          <button
+            className="nav-partners-toggle"
+            type="button"
+            aria-expanded={partnersOpen}
+            aria-controls="partner-menu"
+            onClick={() => setPartnersOpen((open) => !open)}
+          >
+            Partners
+          </button>
+          {partnersOpen ? (
+            <div className="nav-partner-menu" id="partner-menu">
+              {partnerLinks.map((partner, index) => (
+                <Link key={partner.href} href={partner.href} style={{ '--partner-index': index } as React.CSSProperties} onClick={closeMenu}>{partner.label}</Link>
+              ))}
+            </div>
+          ) : null}
+        </div>
         <Link className="button nav-contact" href="/contact" onClick={closeMenu}>
           Contact <ArrowRight aria-hidden="true" />
         </Link>
